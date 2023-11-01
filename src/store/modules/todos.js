@@ -30,13 +30,18 @@ const actions = {
       "https://jsonplaceholder.typicode.com/todos",
       { title, completed: false } // Posting to the Server
     );
-
     commit("newTodo", response.data); // Calling the Mutation to Add the todo to the UI
+  },
+  async deleteTodo({ commit }, id) {
+    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    commit("removeTodo", id);
   },
 };
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
   newTodo: (state, todo) => state.todos.unshift(todo), // Adding the response to the UI
+  removeTodo: (state, id) =>
+    (state.todos = state.todos.filter((todo) => todo.id !== id)),
 };
 
 export default {
